@@ -7,6 +7,16 @@ helm repo add reallyenglish https://storage.googleapis.com/re-charts
 helm install ...
 ```
 
+### Publishing charts
+
+```console
+mkdir pkg
+helm package etcd
+mv etcd-0.2.0.tgz pkg
+helm repo index pkg --merge --url https://storage.googleapis.com/re-charts
+gsutil cp pkg/* gs://re-charts
+```
+
 ### Resources
 
 * [Helm docs](https://github.com/kubernetes/helm/tree/master/docs)
