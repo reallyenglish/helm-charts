@@ -3,14 +3,14 @@
 # Declare name/value pairs to be passed into your templates.
 # name: value
 
-Name: etcd
-PeerPort: 2380
-ClientPort: 2379
-Component: "etcd"
-Replicas: 3
-Image: "gcr.io/google_containers/etcd-amd64"
-ImageTag: "2.2.5"
-ImagePullPolicy: "Always"
-Cpu: "100m"
-Memory: "512Mi"
-Storage: "1Gi"
+name: etcd
+peerPort: 2380
+clientPort: 2379
+component: etcd
+replicas: 3
+image: "gcr.io/google_containers/etcd-amd64"
+imageTag: "2.3.7"
+imagePullPolicy: "Always"
+cpu: "100m"
+memory: "256Mi"
+storage: "1Gi"

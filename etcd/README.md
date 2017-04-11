@@ -35,19 +35,19 @@ $ helm install --name my-release incubator/etcd
 
 The following tables lists the configurable parameters of the etcd chart and their default values.
 
-| Parameter               | Description                        | Default                                                    |
-| ----------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| `Name`                  | Spark master name                  | `etcd`                                                     |
-| `Image`                 | Container image name               | `gcr.io/google_containers/etcd-amd64`                      |
-| `ImageTag`              | Container image tag                | `2.2.5`                                                    |
-| `ImagePullPolicy`       | Container pull policy              | `Always`                                                   |
-| `Replicas`              | k8s statefulset replicas           | `3`                                                        |
-| `Component`             | k8s selector key                   | `etcd`                                                     |
-| `Cpu`                   | container requested cpu            | `100m`                                                     |
-| `Memory`                | container requested memory         | `512Mi`                                                    |
-| `ClientPort`            | k8s service port                   | `2379`                                                     |
-| `PeerPorts`             | Container listening port           | `2380`                                                     |
-| `Storage`               | Persistent volume size             | `1Gi`                                                      |
+| Parameter           | Description                    | Default                                |
+| ------------------- | ------------------------------ | -------------------------------------- |
+| `name`              | Service and StatufulSet name   | `etcd`                                 |
+| `image`             | Container image name           | `gcr.io/google_containers/etcd-amd64`  |
+| `imageTag`          | Container image tag            | `2.3.7`                                |
+| `imagePullPolicy`   | Container pull policy          | `Always`                               |
+| `replicas`          | StatefulSet     replicas       | `3`                                    |
+| `component`         | component k8s selector label   | `etcd`                                 |
+| `cpu`               | container requested cpu        | `100m`                                 |
+| `memory`            | container requested memory     | `256Mi`                                |
+| `clientPort`        | Service port                   | `2379`                                 |
+| `peerPort`          | Container listening port       | `2380`                                 |
+| `storage`           | Persistent volume size         | `1Gi`                                  |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 

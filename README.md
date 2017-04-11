@@ -3,18 +3,25 @@
 ### Installing charts
 
 ```console
-helm repo add reallyenglish https://storage.googleapis.com/re-charts
-helm install ...
+$ helm repo add reallyenglish https://storage.googleapis.com/re-charts
+$ helm search reallyenglish
+$ helm install reallyenglish/etcd
+```
+
+### Debuggin charts
+
+```console
+$ helm lint ./etcd
+$ helm install ./etcd --dry-run --debug
 ```
 
 ### Publishing charts
 
 ```console
-mkdir pkg
-helm package etcd
-mv etcd-0.2.0.tgz pkg
-helm repo index pkg --merge --url https://storage.googleapis.com/re-charts
-gsutil cp pkg/* gs://re-charts
+$ helm package etcd
+$ mv etcd-1.0.0.tgz pkg
+$ helm repo index --merge pkg/index.yaml --url https://storage.googleapis.com/re-charts pkg
+$ gsutil cp pkg/etcd-1.0.0.tgz pkg/index.yaml gs://re-charts
 ```
 
 ### Resources
