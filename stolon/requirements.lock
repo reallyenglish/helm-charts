@@ -1,0 +1,9 @@
+dependencies:
+- condition: ""
+  enabled: false
+  name: etcd
+  repository: https://storage.googleapis.com/re-charts
+  tags: null
+  version: 1.0.0
+digest: sha256:300d522fe2d4cf5b50d19804abb4b34a8bf75cec2834744ddf1d7bd936daf0be
+generated: 2017-04-11T19:07:13.575518483+09:00
