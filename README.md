@@ -5,7 +5,7 @@
 ```console
 $ helm repo add reallyenglish https://storage.googleapis.com/re-charts
 $ helm search reallyenglish
-$ helm install reallyenglish/etcd
+$ helm install reallyenglish/stolon
 ```
 
 ### Debuggin charts
