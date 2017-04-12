@@ -132,7 +132,7 @@ persistence:
 
   ## Persistent Volume Storage Class.
   ##
-  class: anything
+  # class:
 
   ## Persistent Volume Access Mode.
   ##

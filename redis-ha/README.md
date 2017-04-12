@@ -38,7 +38,7 @@ The following tables lists the configurable parameters of the redis-ha chart and
 | `sentinel.failoverTimeout`       | Sentinel failover-timeout config        | `60000`                               |
 | `sentinel.resources`             | Sentinel resource requests/limits       | `cpu 100m, memory 128Mi`              |
 | `persistence.enabled`            | Enables persistence using PVC           | `true`                                |
-| `persistence.class`              | Persistent Volume Storage Class         | `anything`                            |
+| `persistence.class`              | Persistent Volume Storage Class         |                                       |
 | `persistence.accessMode`         | Persistent Volume Access Mode           | `ReadWriteOnce`                       |
 | `persistence.size`               | Persistent Volume Storage Size          | `4Gi`                                 |
 
