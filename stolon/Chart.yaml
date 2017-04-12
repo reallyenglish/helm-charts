@@ -3,6 +3,7 @@ home: https://github.com/sorintlab/stolon
 version: 1.0.0
 description: Stolon Helm Chart for Kubernetes.
 sources:
+  - https://github.com/reallyenglish/helm-charts
   - https://github.com/sorintlab/stolon
   - https://github.com/lwolf/stolon-chart
 maintainers:
