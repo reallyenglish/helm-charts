@@ -1,0 +1,18 @@
+apiVersion: v1
+name: redis-ha
+version: 0.1.0
+description: Open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.
+keywords:
+  - redis
+  - keyvalue
+  - database
+  - high-availability
+home: http://redis.io/
+icon: https://redis.io/images/redis-white.png
+sources:
+  - https://github.com/reallyenglish/helm-charts
+  - https://github.com/reallyenglish/k8s-redis-ha
+maintainers:
+  - name: Lkhagva Ochirkhuyag
+    email: ochkol@reallyenglish.com
+engine: gotpl

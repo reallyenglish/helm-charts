@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+data:
+  redis-dot-conf: |
+    bind BIND
+    port {{ default "6379" .Values.server.port }}
+    protected-mode {{ default "no" .Values.server.protectedMode }}
+    dir {{ default "/data" .Values.server.dataDir }}
+    appendonly {{ default "yes" .Values.server.appendOnly }}
+    appendfsync {{ default "always" .Values.server.appendFsync }}

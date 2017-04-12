@@ -1,0 +1,30 @@
+Sentinels are running on:
+{{- $port := printf "%d" (int64 .Values.sentinel.port) -}}
+{{- $svcName := printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- $svc := default $svcName .Values.serviceName -}}
+{{- $ns := .Release.Namespace -}}
+{{- $set := .Values.statefulSetName -}}
+
+{{ range until (atoi (printf "%d" (int64 .Values.replicaCount))) }}
+  {{ printf "%s-%d.%s.%s.svc.cluster.local:%s" $set . $svc $ns $port -}}
+{{ end }}
+
+If you want to test it from your local machine:
+
+kubectl port-forward {{ default "rds" .Values.statefulSetName }}-0 6380:{{ .Values.sentinel.port }}
+kubectl port-forward {{ default "rds" .Values.statefulSetName }}-1 6381:{{ .Values.sentinel.port }}
+kubectl port-forward {{ default "rds" .Values.statefulSetName }}-2 6382:{{ .Values.sentinel.port }}
+
+You may want to test it with 'redis-rb' rubygem:
+
+redis = Redis.new(
+  host: '{{ default "ha-master" .Values.sentinel.masterName }}',
+  role: :master,
+  timeout: 10,
+  connect_timeout: 15,
+  sentinels: [
+    {:host => "127.0.0.1", :port => 6380},
+    {:host => "127.0.0.1", :port => 6381},
+    {:host => "127.0.0.1", :port => 6382},
+  ]
+)

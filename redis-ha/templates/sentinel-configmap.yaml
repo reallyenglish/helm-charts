@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sentinel-config
+data:
+  sentinel-dot-conf: |
+    bind BIND
+    port {{ default "26379" .Values.sentinel.port}}
+    sentinel monitor {{ default "ha-master" .Values.sentinel.masterName }} MASTER_ADDRESS {{ default "6379" .Values.server.port}} {{ default "2" .Values.sentinel.quorum }}
+    sentinel down-after-milliseconds {{ default "ha-master" .Values.sentinel.masterName }} {{ default "10000" .Values.sentinel.downAfterMilliseconds }}
+    sentinel parallel-syncs {{ default "ha-master" .Values.sentinel.masterName }} {{ default "1" .Values.sentinel.parallelSyncs }}
+    sentinel failover-timeout {{ default "ha-master" .Values.sentinel.masterName }} {{ default "60000" .Values.sentinel.failoverTimeout }}

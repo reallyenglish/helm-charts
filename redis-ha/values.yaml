@@ -1,0 +1,143 @@
+# Default values for redis-ha.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Headles service name.
+## Pod FQDN is <statefulSetName>-0.<serviceName>.<namespace>.svc.cluster.local
+##
+# serviceName:
+
+## Statefulset name.
+##
+statefulSetName: rds
+
+## Statefulset replica count
+##
+replicaCount: 3
+
+## Configuration values for redis server.
+
+server:
+  ## Redis server image.
+  ##
+  imageRepository: "reallyenglish/k8s-redis-ha-server"
+
+  ## Redis server image tag.
+  ## ref: https://hub.docker.com/r/reallyenglish/k8s-redis-ha-server/tags/
+  ##
+  imageTag: "3.2.8"
+
+  ## Specify a imagePullPolicy: 'Always' if imageTag is 'latest', else set to 'IfNotPresent'.
+  ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  imagePullPolicy: IfNotPresent
+
+  ## Redis server listen port. Clients will connect via this port.
+  ##
+  port: 6379
+
+  ## Redis data dir.
+  ##
+  dataDir: "/data"
+
+  ## Redis protected mode. For redis running in kubernetes cluster, disable it.
+  ## ref: http://download.redis.io/redis-stable/redis.conf
+  ##
+  protectedMode: "no"
+
+  ## Provides better durability guarantees.
+  ## ref: http://download.redis.io/redis-stable/redis.conf
+  ##
+  appendOnly: "yes"
+
+  ## Redis supports three different fsync modes:
+  ## - no: don't fsync, just let the OS flush the data when it wants. Faster.
+  ## - always: fsync after every write to the append only log. Slow, Safest.
+  ## - everysec: fsync only one time every second. Compromise.
+  ##
+  appendFsync: "always"
+
+  ## Resource requests and limitations
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi
+
+sentinel:
+  ## Sentinel image repository.
+  ##
+  imageRepository: "reallyenglish/k8s-redis-ha-sentinel"
+
+  ## Redis server image tag.
+  ## ref: https://hub.docker.com/r/reallyenglish/k8s-redis-ha-server/tags/
+  ##
+  imageTag: "3.2.8"
+
+  ## Specify a imagePullPolicy: 'Always' if imageTag is 'latest', else set to 'IfNotPresent'.
+  ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  imagePullPolicy: IfNotPresent
+
+  ## Sentinel port.
+  ##
+  port: 26379
+
+  ## Redis master name for sentinel.
+  ##
+  masterName: ha-master
+
+  ## Sentinel quorum number. For 3 node cluster, quorum should be 2.
+  ## ref: https://redis.io/topics/sentinel
+  ##
+  quorum: 2
+
+  ## time in milliseconds an instance should not be reachable for a Sentinel
+  ## starting to think it is down.
+  ## ref: https://redis.io/topics/sentinel#other-sentinel-options
+  ##
+  downAfterMilliseconds: "10000"
+
+  ## number of slaves that can be reconfigured to use the new master after a
+  ## failover at the same time.
+  ## ref: https://redis.io/topics/sentinel#other-sentinel-options
+  ##
+  parallelSyncs: "1"
+
+  ## if a Sentinel voted another Sentinel for the failover of a given master,
+  ## it will wait some time to try to failover the same master again.
+  ## ref: https://redis.io/topics/sentinel#configuration-epochs
+  ##
+  failoverTimeout: "60000"
+
+  ## Resource requests and limitations
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi
+
+## Persistent Volume Storage configuration.
+## ref: https://kubernetes.io/docs/user-guide/persistent-volumes
+##
+
+persistence:
+  ## Enable persistence using Persistent Volume Claims.
+  ##
+  enabled: true
+
+  ## Persistent Volume Storage Class.
+  ##
+  class: anything
+
+  ## Persistent Volume Access Mode.
+  ##
+  accessMode: ReadWriteOnce
+
+  ## Persistent Volume Storage Size.
+  ##
+  size: 4Gi
