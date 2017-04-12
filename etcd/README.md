@@ -1,34 +1,17 @@
 # Etcd Helm Chart
 
-Credit to https://github.com/ingvagabund. This is an implementation of that work
-
-* https://github.com/kubernetes/contrib/pull/1295
-
-## Prerequisites Details
-* Kubernetes 1.5 (for `StatefulSets` support)
-* PV support on the underlying infrastructure
-
-## StatefulSet Details
-* https://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/
-
-## StatefulSet Caveats
-* https://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/#limitations
+Dynamically scalable etcd cluster using Kubernetes StatefulSets.
 
 ## Todo
 * Implement SSL
-
-## Chart Details
-This chart will do the following:
-
-* Implemented a dynamically scalable etcd cluster using Kubernetes StatefulSets
 
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
-$ helm install --name my-release incubator/etcd
+$ helm repo add reallyenglish https://storage.googleapis.com/re-charts
+$ helm install --name my-release reallyenglish/etcd
 ```
 
 ## Configuration
@@ -54,7 +37,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name my-release -f values.yaml incubator/etcd
+$ helm install --name my-release -f values.yaml reallyenglish/etcd
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)

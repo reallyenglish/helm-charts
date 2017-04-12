@@ -1,10 +1,10 @@
 apiVersion: v1
 entries:
   etcd:
-  - created: 2017-04-12T17:21:39.557644165+09:00
+  - created: 2017-04-12T17:30:14.295501459+09:00
     description: Distributed reliable key-value store for the most critical data of
       a distributed system.
-    digest: 1a7e2b0993f2a79dd26b055610c80db2feba873269c46085ecd3989d7417407a
+    digest: 8892fb71f170de7f3c62fc038a87bec08d26b517421f61a58cb033657767deb0
     home: https://github.com/coreos/etcd
     icon: https://raw.githubusercontent.com/coreos/etcd/master/logos/etcd-horizontal-color.png
     maintainers:
@@ -12,6 +12,7 @@ entries:
       name: Lkhagva Ochirkhuyag
     name: etcd
     sources:
+    - https://github.com/reallyenglish/helm-charts
     - https://github.com/coreos/etcd
     - https://github.com/kubernetes/charts/tree/master/incubator/etcd
     urls:
@@ -19,7 +20,7 @@ entries:
     version: 1.0.0
   redis-ha:
   - apiVersion: v1
-    created: 2017-04-12T17:21:39.558093828+09:00
+    created: 2017-04-12T17:30:14.296600738+09:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -43,7 +44,7 @@ entries:
     - https://storage.googleapis.com/re-charts/redis-ha-0.1.0.tgz
     version: 0.1.0
   stolon:
-  - created: 2017-04-12T17:21:39.559802849+09:00
+  - created: 2017-04-12T17:30:14.298333037+09:00
     description: Stolon Helm Chart for Kubernetes.
     digest: 59b06866cbf8e42c1c889ffb9f845f8aece77ad89dafc0c9929814f412d1d955
     home: https://github.com/sorintlab/stolon
@@ -57,4 +58,4 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/stolon-1.0.0.tgz
     version: 1.0.0
-generated: 2017-04-12T17:21:39.556472372+09:00
+generated: 2017-04-12T17:30:14.294849346+09:00
