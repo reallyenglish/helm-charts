@@ -1,10 +1,10 @@
 apiVersion: v1
 entries:
   etcd:
-  - created: 2017-04-11T22:12:46.033570573+09:00
+  - created: 2017-04-12T11:22:22.001603402+09:00
     description: Distributed reliable key-value store for the most critical data of
       a distributed system.
-    digest: 8f9d0e7da6380dc8d9085f2b4a548a7781e368bdff2c1986d4ed8a1432da1392
+    digest: 1a7e2b0993f2a79dd26b055610c80db2feba873269c46085ecd3989d7417407a
     home: https://github.com/coreos/etcd
     icon: https://raw.githubusercontent.com/coreos/etcd/master/logos/etcd-horizontal-color.png
     maintainers:
@@ -13,11 +13,12 @@ entries:
     name: etcd
     sources:
     - https://github.com/coreos/etcd
+    - https://github.com/kubernetes/charts/tree/master/incubator/etcd
     urls:
     - https://storage.googleapis.com/re-charts/etcd-1.0.0.tgz
     version: 1.0.0
   stolon:
-  - created: 2017-04-11T22:12:46.034855201+09:00
+  - created: 2017-04-12T11:22:22.003203724+09:00
     description: Stolon Helm Chart for Kubernetes.
     digest: 59b06866cbf8e42c1c889ffb9f845f8aece77ad89dafc0c9929814f412d1d955
     home: https://github.com/sorintlab/stolon
@@ -31,4 +32,4 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/stolon-1.0.0.tgz
     version: 1.0.0
-generated: 2017-04-11T22:12:46.032325064+09:00
+generated: 2017-04-12T11:22:22.000975691+09:00

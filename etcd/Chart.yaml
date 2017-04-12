@@ -5,6 +5,7 @@ description: Distributed reliable key-value store for the most critical data of 
 icon: https://raw.githubusercontent.com/coreos/etcd/master/logos/etcd-horizontal-color.png
 sources:
   - https://github.com/coreos/etcd
+  - https://github.com/kubernetes/charts/tree/master/incubator/etcd
 maintainers:
   - name: Lkhagva Ochirkhuyag
     email: ochkol@reallyenglish.com
