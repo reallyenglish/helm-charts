@@ -1,0 +1,108 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  labels:
+    app: {{ template "mongo.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "mongo.fullname" . }}
+spec:
+  serviceName: {{ template "mongo.fullname" . }}
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "mongo.name" . }}
+        release: {{ .Release.Name }}
+      annotations:
+      {{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8}}
+      {{- end }}
+    spec:
+      initContainers:
+        - name: install-tools
+          image: "{{ .Values.installImage.name }}:{{ .Values.installImage.tag }}"
+          imagePullPolicy: "{{ .Values.installImage.pullPolicy }}"
+          args: ["--work-dir=/work-dir"]
+          volumeMounts:
+            - mountPath: /work-dir
+              name: workdir
+        - name: init-replicaset
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          command:
+            - "bash"
+            - "-c"
+            - |
+{{ .Files.Get "scripts/init-replicaset.sh" | indent 14 }}
+
+          env:
+          - name: SERVICE_NAME
+            value: "{{ template "mongo.fullname" . }}"
+          - name: REPLICA_SET
+            value: "{{ .Values.replicaSet }}"
+          volumeMounts:
+            - mountPath: /data/db
+              name: datadir
+            - mountPath: /config
+              name: config
+            - mountPath: /work-dir
+              name: workdir
+
+      containers:
+        - name: {{ template "mongo.name" . }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          ports:
+            - name: peer
+              containerPort: {{ .Values.port }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          command:
+            - /usr/bin/mongod
+            - --config=/config/mongod.conf
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "/usr/bin/mongo --eval 'printjson(db.serverStatus())'"
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "/usr/bin/mongo admin --eval 'db.shutdownServer({force: true})'"
+          volumeMounts:
+            - name: datadir
+              mountPath: /data/db
+            - name: config
+              mountPath: /config
+
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "mongo.fullname" . }}
+        - name: workdir
+          emptyDir: {}
+
+{{- if .Values.persistentVolume.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: datadir
+      spec:
+        storageClassName: {{ default "default" .Values.persistentVolume.storageClass | quote }}
+        accessModes:
+        {{- range .Values.persistentVolume.accessModes }}
+          - {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistentVolume.size | quote }}
+{{- else }}
+        - name: datadir
+          emptyDir: {}
+{{- end }}

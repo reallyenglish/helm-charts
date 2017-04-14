@@ -1,0 +1,13 @@
+apiVersion: v1
+name: mongodb-rs
+home: https://github.com/mongodb/mongo
+version: 0.1.0
+description: MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling.
+icon: https://webassets.mongodb.com/_com_assets/global/mongodb-logo-white.png
+sources:
+  - https://github.com/mongodb/mongo
+  - https://github.com/kubernetes/charts/tree/master/incubator/mongodb-replicaset
+  - https://github.com/reallyenglish/k8s-mongodb-replicaset
+maintainers:
+  - name: Lkhagva Ochirkhuyag
+    email: ochkol@reallyenglish.com
