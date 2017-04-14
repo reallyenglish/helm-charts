@@ -1,7 +1,7 @@
 apiVersion: v1
 entries:
   etcd:
-  - created: 2017-04-12T18:12:55.232368419+09:00
+  - created: 2017-04-14T20:20:59.369068241+09:00
     description: Distributed reliable key-value store for the most critical data of
       a distributed system.
     digest: 8892fb71f170de7f3c62fc038a87bec08d26b517421f61a58cb033657767deb0
@@ -18,9 +18,28 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/etcd-1.0.0.tgz
     version: 1.0.0
+  mongodb-rs:
+  - apiVersion: v1
+    created: 2017-04-14T20:20:59.370385241+09:00
+    description: MongoDB is an open-source document database that provides high performance,
+      high availability, and automatic scaling.
+    digest: e640ef3b7aa6122eefe03ab3490bfe38e12236b5e6dfbe02bfce03eceb4145cf
+    home: https://github.com/mongodb/mongo
+    icon: https://webassets.mongodb.com/_com_assets/global/mongodb-logo-white.png
+    maintainers:
+    - email: ochkol@reallyenglish.com
+      name: Lkhagva Ochirkhuyag
+    name: mongodb-rs
+    sources:
+    - https://github.com/mongodb/mongo
+    - https://github.com/kubernetes/charts/tree/master/incubator/mongodb-replicaset
+    - https://github.com/reallyenglish/k8s-mongodb-replicaset
+    urls:
+    - https://storage.googleapis.com/re-charts/mongodb-rs-0.1.0.tgz
+    version: 0.1.0
   redis-ha:
   - apiVersion: v1
-    created: 2017-04-12T18:12:55.233458694+09:00
+    created: 2017-04-14T20:20:59.371360264+09:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -44,7 +63,7 @@ entries:
     - https://storage.googleapis.com/re-charts/redis-ha-0.1.2.tgz
     version: 0.1.2
   stolon:
-  - created: 2017-04-12T18:12:55.234107439+09:00
+  - created: 2017-04-14T20:20:59.372655998+09:00
     description: Stolon Helm Chart for Kubernetes.
     digest: 59b06866cbf8e42c1c889ffb9f845f8aece77ad89dafc0c9929814f412d1d955
     home: https://github.com/sorintlab/stolon
@@ -58,4 +77,4 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/stolon-1.0.0.tgz
     version: 1.0.0
-generated: 2017-04-12T18:12:55.231756751+09:00
+generated: 2017-04-14T20:20:59.367965379+09:00
