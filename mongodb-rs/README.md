@@ -72,7 +72,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-app -f values.yaml incubator/mongodb-replicaset
+$ helm install --name my-app -f values.yaml reallyenglish/mongodb-rs
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -82,26 +82,24 @@ Once you have all 3 nodes in running, you can run the "test.sh" script in this d
 # Deep dive
 
 Because the pod names are dependent on the name chosen for it, the following examples use the
-environment variable `RELEASENAME`. For example, if the helm release name is `messy-hydra`, one would need to set the following before proceeding. The example scripts below assume 3 pods only.
+environment variable `RELEASE_NAME`. For example, if the helm release name is `my-app`, one would need to set the following before proceeding. The example scripts below assume 3 pods only.
 
 ```console
-export RELEASE_NAME=messy-hydra
+export FULLNAME=my-app-mongo
 ```
 
 ## Cluster Health
 
 ```console
-$ for i in 0 1 2; do kubectl exec $RELEASE_NAME-mongodb-$i -- sh -c '/usr/bin/mongo --eval="printjson(db.serverStatus())"'; done
+$ for i in 0 1 2; do kubectl exec $FULLNAME-$i -- sh -c '/usr/bin/mongo --eval="printjson(db.serverStatus())"'; done
 ```
 
 ## Failover
 
 One can check the roles being played by each node by using the following:
 ```console
-$ for i in 0 1 2; do kubectl exec $RELEASE_NAME-mongodb-$i -- sh -c '/usr/bin/mongo --eval="printjson(rs.isMaster())"'; done
+$ for i in 0 1 2; do kubectl exec $FULLNAME-$i -- sh -c '/usr/bin/mongo --quiet --eval="printjson(rs.isMaster())"'; done
 
-MongoDB shell version: 3.2.9
-connecting to: test
 {
 	"hosts" : [
 		"my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
@@ -114,46 +112,31 @@ connecting to: test
 	"secondary" : false,
 	"primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
 	"me" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
-	"electionId" : ObjectId("7fffffff0000000000000001"),
-	"maxBsonObjectSize" : 16777216,
-	"maxMessageSizeBytes" : 48000000,
-	"maxWriteBatchSize" : 1000,
-	"localTime" : ISODate("2016-09-13T01:10:12.680Z"),
-	"maxWireVersion" : 4,
-	"minWireVersion" : 0,
-	"ok" : 1
+	...
 }
-
 
 ```
 This lets us see which member is primary.
 
 Let us now test persistence and failover. First, we insert a key (in the below example, we assume pod 0 is the master):
 ```console
-$ kubectl exec $RELEASE_NAME-mongodb-0 -- /usr/bin/mongo --eval="printjson(db.test.insert({key1: 'value1'}))"
+$ kubectl exec $FULLNAME-0 -- /usr/bin/mongo --quiet --eval="printjson(db.test.insert({key1: 'value1'}))"
 
-MongoDB shell version: 3.4.3
-connecting to: test
 { "nInserted" : 1 }
 ```
 
 Watch existing members:
 ```console
-$ kubectl run --attach bbox --image=mongo:3.2 --restart=Never -- sh -c 'while true; do for i in 0 1 2; do echo <$release-podname-$i> $(mongo --host=$RELEASE_NAME-mongodb-$i.$RELEASE_NAME-mongodb --eval="printjson(rs.isMaster())" | grep primary); sleep 1; done; done';
-
-Waiting for pod default/bbox2 to be running, status is Pending, pod ready: false
+$ kubectl run --attach box --image=mongo:3.4 --restart=Never -- sh -c 'while true; do for i in 0 1 2; do echo $i $(mongo --host=$FULLNAME-$i.$FULLNAME --eval="printjson(rs.isMaster())" | grep primary); sleep 1; done; done';
 If you don't see a command prompt, try pressing enter.
-my-app-mongo-2 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
-my-app-mongo-0 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
-my-app-mongo-1 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
-my-app-mongo-2 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
-my-app-mongo-0 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
-
+2 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
+0 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
+1 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
 ```
 
 Kill the primary and watch as a new master getting elected.
 ```console
-$ kubectl delete pod $RELEASE_NAME-mongodb-0
+$ kubectl delete pod $FULLNAME-0
 
 pod "my-app-mongo-0" deleted
 ```
@@ -162,34 +145,43 @@ Delete all pods and let the statefulset controller bring it up.
 ```console
 $ kubectl delete po -l app=mongodb
 $ kubectl get po --watch-only
-NAME                    READY     STATUS        RESTARTS   AGE
-my-app-mongo-0   0/1       Pending   0         0s
-my-app-mongo-0   0/1       Pending   0         0s
-my-app-mongo-0   0/1       Pending   0         7s
-my-app-mongo-0   0/1       Init:0/2   0         7s
-my-app-mongo-0   0/1       Init:1/2   0         27s
-my-app-mongo-0   0/1       Init:1/2   0         28s
-my-app-mongo-0   0/1       PodInitializing   0         31s
-my-app-mongo-0   0/1       Running   0         32s
-my-app-mongo-0   1/1       Running   0         37s
-my-app-mongo-1   0/1       Pending   0         0s
-my-app-mongo-1   0/1       Pending   0         0s
-my-app-mongo-1   0/1       Init:0/2   0         0s
-my-app-mongo-1   0/1       Init:1/2   0         20s
-my-app-mongo-1   0/1       Init:1/2   0         21s
-my-app-mongo-1   0/1       PodInitializing   0         24s
-my-app-mongo-1   0/1       Running   0         25s
-my-app-mongo-1   1/1       Running   0         30s
-my-app-mongo-2   0/1       Pending   0         0s
-my-app-mongo-2   0/1       Pending   0         0s
-my-app-mongo-2   0/1       Init:0/2   0         0s
-my-app-mongo-2   0/1       Init:1/2   0         21s
-my-app-mongo-2   0/1       Init:1/2   0         22s
-my-app-mongo-2   0/1       PodInitializing   0         25s
-my-app-mongo-2   0/1       Running   0         26s
-my-app-mongo-2   1/1       Running   0         30s
-
-
+NAME             READY     STATUS           RESTARTS  AGE
+my-app-mongo-0   1/1       Terminating      0         3m
+my-app-mongo-1   1/1       Terminating      0         1h
+my-app-mongo-2   1/1       Terminating      0         1h
+my-app-mongo-0   0/1       Terminating      0         3m
+my-app-mongo-1   0/1       Terminating      0         1h
+my-app-mongo-0   0/1       Terminating      0         3m
+my-app-mongo-0   0/1       Terminating      0         3m
+my-app-mongo-0   0/1       Pending          0         1s
+my-app-mongo-0   0/1       Pending          0         1s
+my-app-mongo-0   0/1       Init:0/2         0         1s
+my-app-mongo-1   0/1       Terminating      0         1h
+my-app-mongo-1   0/1       Terminating      0         1h
+my-app-mongo-2   0/1       Terminating      0         1h
+my-app-mongo-2   0/1       Terminating      0         1h
+my-app-mongo-2   0/1       Terminating      0         1h
+my-app-mongo-0   0/1       Init:1/2         0         19s
+my-app-mongo-0   0/1       Init:1/2         0         20s
+my-app-mongo-0   0/1       PodInitializing  0         23s
+my-app-mongo-0   0/1       Running          0         24s
+my-app-mongo-0   1/1       Running          0         31s
+my-app-mongo-1   0/1       Pending          0         1s
+my-app-mongo-1   0/1       Pending          0         1s
+my-app-mongo-1   0/1       Init:0/2         0         1s
+my-app-mongo-1   0/1       Init:1/2         0         19s
+my-app-mongo-1   0/1       Init:1/2         0         20s
+my-app-mongo-1   0/1       PodInitializing  0         22s
+my-app-mongo-1   0/1       Running          0         23s
+my-app-mongo-1   1/1       Running          0         31s
+my-app-mongo-2   0/1       Pending          0         1s
+my-app-mongo-2   0/1       Pending          0         1s
+my-app-mongo-2   0/1       Init:0/2         0         1s
+my-app-mongo-2   0/1       Init:1/2         0         19s
+my-app-mongo-2   0/1       Init:1/2         0         20s
+my-app-mongo-2   0/1       PodInitializing  0         21s
+my-app-mongo-2   0/1       Running          0         22s
+my-app-mongo-2   1/1       Running          0         31s
 ...
 my-app-mongo-0 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
 my-app-mongo-1 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:27017",
@@ -198,13 +190,37 @@ my-app-mongo-2 "primary" : "my-app-mongo-0.my-app-mongo.demo.svc.cluster.local:2
 
 Check the previously inserted key:
 ```console
-$ kubectl exec $RELEASE_NAME-mongodb-1 -- /usr/bin/mongo --eval="rs.slaveOk(); db.test.find({key1:{\$exists:true}}).forEach(printjson)"
+$ kubectl exec $FULLNAME-1 -- /usr/bin/mongo --quiet --eval="rs.slaveOk(); db.test.find({key1:{\$exists:true}}).forEach(printjson)"
 
-MongoDB shell version: 3.4.3
-connecting to: test
 { "_id" : ObjectId("57b180b1a7311d08f2bfb617"), "key1" : "value1" }
 ```
 
 ## Scaling
 
-Scaling should be managed by `helm upgrade`, which is the recommended way.
+```console
+$ kubectl scale statefulsets my-app-mongo --replicas=5
+statefulset "my-app-mongo" scaled
+$ kubectl get po --watch-only
+NAME             READY     STATUS           RESTARTS  AGE
+my-app-mongo-3   0/1       Pending          0         0s
+my-app-mongo-3   0/1       Pending          0         0s
+my-app-mongo-3   0/1       Pending          0         7s
+my-app-mongo-3   0/1       Init:0/2         0         7s
+my-app-mongo-3   0/1       Init:1/2         0         25s
+my-app-mongo-3   0/1       Init:1/2         0         26s
+my-app-mongo-3   0/1       PodInitializing  0         27s
+my-app-mongo-3   0/1       Running          0         28s
+my-app-mongo-3   1/1       Running          0         37s
+my-app-mongo-4   0/1       Pending          0         0s
+my-app-mongo-4   0/1       Pending          0         0s
+my-app-mongo-4   0/1       Pending          0         7s
+my-app-mongo-4   0/1       Init:0/2         0         7s
+my-app-mongo-4   0/1       Init:1/2         0         26s
+my-app-mongo-4   0/1       Init:1/2         0         27s
+my-app-mongo-4   0/1       PodInitializing  0         28s
+my-app-mongo-4   0/1       Running          0         29s
+my-app-mongo-4   1/1       Running          0         37s
+$ kubectl get statefulset
+NAME           DESIRED   CURRENT   AGE
+my-app-mongo   5         5         1h
+```
