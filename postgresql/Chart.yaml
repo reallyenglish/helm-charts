@@ -9,9 +9,11 @@ keywords:
 home: https://www.postgresql.org/
 icon: https://www.postgresql.org/media/img/about/press/elephant.png
 sources:
+- https://github.com/reallyenglish/helm-charts
 - https://github.com/kubernetes/charts
 - https://github.com/docker-library/postgres
 maintainers:
 - name: swordbeta
 - name: databus23
+- name: ochko
 engine: gotpl

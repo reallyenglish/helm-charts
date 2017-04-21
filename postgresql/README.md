@@ -5,7 +5,8 @@
 ## TL;DR;
 
 ```bash
-$ helm install stable/postgresql
+$ helm repo add reallyenglish https://storage.googleapis.com/re-charts
+$ helm install reallyenglish/postgresql
 ```
 
 ## Introduction
@@ -14,7 +15,7 @@ This chart bootstraps a [PostgreSQL](https://github.com/docker-library/postgres)
 
 ## Prerequisites
 
-- Kubernetes 1.4+ with Beta APIs enabled
+- Kubernetes 1.6+ with Beta APIs enabled
 - PV provisioner support in the underlying infrastructure (Only when persisting data)
 
 ## Installing the Chart
@@ -22,7 +23,7 @@ This chart bootstraps a [PostgreSQL](https://github.com/docker-library/postgres)
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release stable/postgresql
+$ helm install --name my-release reallyenglish/postgresql
 ```
 
 The command deploys PostgreSQL on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -71,7 +72,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```bash
 $ helm install --name my-release \
   --set postgresUser=my-user,postgresPassword=secretpassword,postgresDatabase=my-database \
-    stable/postgresql
+    reallyenglish/postgresql
 ```
 
 The above command creates a PostgresSQL user named `root` with password `secretpassword`. Additionally it creates a database named `my-database`.
@@ -79,7 +80,7 @@ The above command creates a PostgresSQL user named `root` with password `secretp
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name my-release -f values.yaml stable/postgresql
+$ helm install --name my-release -f values.yaml reallyenglish/postgresql
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -96,7 +97,7 @@ The chart mounts a [Persistent Volume](http://kubernetes.io/docs/user-guide/pers
 1. Create the PersistentVolumeClaim
 1. Install the chart
 ```bash
-$ helm install --set persistence.existingClaim=PVC_NAME postgresql
+$ helm install --set persistence.existingClaim=PVC_NAME reallyenglish/postgresql
 ```
 
 The volume defaults to mount at a subdirectory of the volume instead of the volume root to avoid the volume's hidden directories from interfering with `initdb`.  If you are upgrading this chart from before version `0.4.0`, set `persistence.subPath` to `""`.
