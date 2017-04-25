@@ -1,0 +1,16 @@
+name: redis
+version: 0.5.1
+description: Open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.
+keywords:
+- redis
+- keyvalue
+- database
+home: http://redis.io/
+icon: https://redis.io/images/redis-white.png
+sources:
+- https://github.com/reallyenglish/helm-charts
+- https://github.com/kubernetes/charts
+- https://github.com/docker-library/redis
+maintainers:
+- name: ochko
+engine: gotpl
