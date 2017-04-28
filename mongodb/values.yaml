@@ -1,0 +1,33 @@
+## MongoDB image repo
+## ref: https://hub.docker.com/r/library/mongo/tags/
+##
+image: mongo
+
+## Image tag name
+##
+imageTag: 3.4.4
+
+## Specify a imagePullPolicy
+## 'Always' if imageTag is 'latest', else set to 'IfNotPresent'
+## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+##
+# imagePullPolicy:
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  ## If not defined, the default storage class of cluster will be used
+  ##
+  # storageClass:
+  accessMode: ReadWriteOnce
+  size: 16Gi
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m

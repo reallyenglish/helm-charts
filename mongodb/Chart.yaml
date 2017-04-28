@@ -1,0 +1,14 @@
+name: mongodb
+version: 0.1.0
+description: NoSQL document-oriented database that stores JSON-like documents with dynamic schemas, simplifying the integration of data in content-driven applications.
+keywords:
+- mongodb
+- database
+- nosql
+home: https://mongodb.org
+icon: https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg
+sources:
+- https://github.com/docker-library/mongo
+maintainers:
+- name: ochko
+engine: gotpl
