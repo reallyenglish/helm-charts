@@ -77,8 +77,14 @@ spec:
       volumes:
       - name: data
       {{- if .Values.persistence.enabled }}
+        {{- if .Values.persistence.gcePersistentDisk }}
+        gcePersistentDisk:
+          pdName: {{ .Values.persistence.gcePersistentDisk | quote }}
+          fsType: "ext4"
+        {{- else }}
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.existingClaim | default (include "fullname" .) }}
+        {{- end -}}
       {{- else }}
         emptyDir: {}
       {{- end -}}

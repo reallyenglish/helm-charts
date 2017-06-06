@@ -54,6 +54,7 @@ The following tables lists the configurable parameters of the PostgresSQL chart 
 | `postgresDatabase`         | Name for new database to create.           | `postgres`                                                 |
 | `persistence.enabled`      | Use a PVC to persist data                  | `true`                                                     |
 | `persistence.existingClaim`| Provide an existing PersistentVolumeClaim  | `nil`                                                      |
+| `persistence.gcePersistentDisk`| Provide an existing GCE Persistent Disk | `nil`                                                 |
 | `persistence.storageClass` | Storage class of backing PVC               | `nil` (uses alpha storage class annotation)                |
 | `persistence.accessMode`   | Use volume as ReadOnly or ReadWrite        | `ReadWriteOnce`                                            |
 | `persistence.size`         | Size of data volume                        | `8Gi`                                                      |
@@ -96,8 +97,18 @@ The chart mounts a [Persistent Volume](http://kubernetes.io/docs/user-guide/pers
 1. Create the PersistentVolume
 1. Create the PersistentVolumeClaim
 1. Install the chart
-```bash
-$ helm install --set persistence.existingClaim=PVC_NAME reallyenglish/postgresql
+
+```console
+$ helm install --set persistence.existingClaim=${PVC_NAME} reallyenglish/postgresql
+```
+
+### Existing GCE persistent disk
+
+1. Create the disk
+1. Install the chart
+
+```console
+$ helm install --set persistence.gcePersistentDisk=${DISK_NAME} reallyenglish/postgresql
 ```
 
 The volume defaults to mount at a subdirectory of the volume instead of the volume root to avoid the volume's hidden directories from interfering with `initdb`.  If you are upgrading this chart from before version `0.4.0`, set `persistence.subPath` to `""`.
