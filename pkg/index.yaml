@@ -1,7 +1,7 @@
 apiVersion: v1
 entries:
   etcd:
-  - created: 2017-06-06T14:47:11.640353589+09:00
+  - created: 2017-06-06T18:26:55.571444647+09:00
     description: Distributed reliable key-value store for the most critical data of
       a distributed system.
     digest: 8892fb71f170de7f3c62fc038a87bec08d26b517421f61a58cb033657767deb0
@@ -19,7 +19,7 @@ entries:
     - https://storage.googleapis.com/re-charts/etcd-1.0.0.tgz
     version: 1.0.0
   memcached:
-  - created: 2017-06-06T14:47:11.640939062+09:00
+  - created: 2017-06-06T18:26:55.572111495+09:00
     description: Free & open source, high-performance, distributed memory object caching
       system.
     digest: 8583c6f5329b499c46cf82cea188cb21b41da141d3d84c36716a7182e5fbd16d
@@ -36,7 +36,7 @@ entries:
     - https://storage.googleapis.com/re-charts/memcached-1.0.0.tgz
     version: 1.0.0
   mongodb:
-  - created: 2017-06-06T14:47:11.641596456+09:00
+  - created: 2017-06-06T18:26:55.572793738+09:00
     description: NoSQL document-oriented database that stores JSON-like documents
       with dynamic schemas, simplifying the integration of data in content-driven
       applications.
@@ -58,7 +58,7 @@ entries:
     version: 0.1.0
   mongodb-rs:
   - apiVersion: v1
-    created: 2017-06-06T14:47:11.642725369+09:00
+    created: 2017-06-06T18:26:55.574015522+09:00
     description: MongoDB is an open-source document database that provides high performance,
       high availability, and automatic scaling.
     digest: e640ef3b7aa6122eefe03ab3490bfe38e12236b5e6dfbe02bfce03eceb4145cf
@@ -76,7 +76,55 @@ entries:
     - https://storage.googleapis.com/re-charts/mongodb-rs-0.1.0.tgz
     version: 0.1.0
   postgresql:
-  - created: 2017-06-06T14:47:11.646653674+09:00
+  - created: 2017-06-06T18:26:55.580022974+09:00
+    description: Object-relational database management system (ORDBMS) with an emphasis
+      on extensibility and on standards-compliance.
+    digest: c77469c087d393c4dec838dd015ea5eacc27abef409c5aebe43322d90b0e0275
+    engine: gotpl
+    home: https://www.postgresql.org/
+    icon: https://www.postgresql.org/media/img/about/press/elephant.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    maintainers:
+    - name: swordbeta
+    - name: databus23
+    - name: ochko
+    name: postgresql
+    sources:
+    - https://github.com/reallyenglish/helm-charts
+    - https://github.com/kubernetes/charts
+    - https://github.com/docker-library/postgres
+    urls:
+    - https://storage.googleapis.com/re-charts/postgresql-0.7.2.tgz
+    version: 0.7.2
+  - created: 2017-06-06T18:26:55.579552474+09:00
+    description: Object-relational database management system (ORDBMS) with an emphasis
+      on extensibility and on standards-compliance.
+    digest: bc252a9d0a920331cb5b80c37bcae1383f3290dbc086868e5e32e99e34b59d31
+    engine: gotpl
+    home: https://www.postgresql.org/
+    icon: https://www.postgresql.org/media/img/about/press/elephant.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    maintainers:
+    - name: swordbeta
+    - name: databus23
+    - name: ochko
+    name: postgresql
+    sources:
+    - https://github.com/reallyenglish/helm-charts
+    - https://github.com/kubernetes/charts
+    - https://github.com/docker-library/postgres
+    urls:
+    - https://storage.googleapis.com/re-charts/postgresql-0.7.1.tgz
+    version: 0.7.1
+  - created: 2017-06-06T18:26:55.578371675+09:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 1a72ff0e2573cec94197513e50dda2f4f4e68e373c97a1c8cfb494f9b915b736
@@ -100,7 +148,7 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/postgresql-0.7.0.tgz
     version: 0.7.0
-  - created: 2017-06-06T14:47:11.646135678+09:00
+  - created: 2017-06-06T18:26:55.577460122+09:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 5e894df3f60e8b3ff9753d3cc48cfae57efc90ba2741b3975552a14bc7026cc0
@@ -124,7 +172,7 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/postgresql-0.6.2.tgz
     version: 0.6.2
-  - created: 2017-06-06T14:47:11.645100971+09:00
+  - created: 2017-06-06T18:26:55.576309515+09:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 3c58d624ea7d93bd4ec19ca5b1f26d859c689c15d8b68f2ab69f2448d5527003
@@ -148,7 +196,7 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/postgresql-0.6.1.tgz
     version: 0.6.1
-  - created: 2017-06-06T14:47:11.643908273+09:00
+  - created: 2017-06-06T18:26:55.575152895+09:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 17a0a495f82100a939b56a748294714363a234869cc13c24703f5ad88c9822fd
@@ -173,7 +221,7 @@ entries:
     - https://storage.googleapis.com/re-charts/postgresql-0.6.0.tgz
     version: 0.6.0
   redis:
-  - created: 2017-06-06T14:47:11.647988091+09:00
+  - created: 2017-06-06T18:26:55.581393579+09:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -195,7 +243,7 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/redis-0.6.0.tgz
     version: 0.6.0
-  - created: 2017-06-06T14:47:11.647343658+09:00
+  - created: 2017-06-06T18:26:55.580713449+09:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -219,7 +267,7 @@ entries:
     version: 0.5.1
   redis-ha:
   - apiVersion: v1
-    created: 2017-06-06T14:47:11.648993458+09:00
+    created: 2017-06-06T18:26:55.582501282+09:00
     description: Open source, advanced key-value store. It is often referred to as
       a data structure server since keys can contain strings, hashes, lists, sets
       and sorted sets.
@@ -243,7 +291,7 @@ entries:
     - https://storage.googleapis.com/re-charts/redis-ha-0.1.2.tgz
     version: 0.1.2
   stolon:
-  - created: 2017-06-06T14:47:11.650877437+09:00
+  - created: 2017-06-06T18:26:55.584075138+09:00
     description: Stolon Helm Chart for Kubernetes.
     digest: 59b06866cbf8e42c1c889ffb9f845f8aece77ad89dafc0c9929814f412d1d955
     home: https://github.com/sorintlab/stolon
@@ -257,4 +305,4 @@ entries:
     urls:
     - https://storage.googleapis.com/re-charts/stolon-1.0.0.tgz
     version: 1.0.0
-generated: 2017-06-06T14:47:11.638988506+09:00
+generated: 2017-06-06T18:26:55.570043945+09:00

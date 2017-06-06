@@ -54,11 +54,12 @@ The following tables lists the configurable parameters of the PostgresSQL chart 
 | `postgresDatabase`         | Name for new database to create.           | `postgres`                                                 |
 | `persistence.enabled`      | Use a PVC to persist data                  | `true`                                                     |
 | `persistence.existingClaim`| Provide an existing PersistentVolumeClaim  | `nil`                                                      |
-| `persistence.gcePersistentDisk`| Provide an existing GCE Persistent Disk | `nil`                                                 |
+| `persistence.gcePersistentDisk`| Provide an existing GCE Persistent Disk | `nil`                                                     |
 | `persistence.storageClass` | Storage class of backing PVC               | `nil` (uses alpha storage class annotation)                |
 | `persistence.accessMode`   | Use volume as ReadOnly or ReadWrite        | `ReadWriteOnce`                                            |
 | `persistence.size`         | Size of data volume                        | `8Gi`                                                      |
 | `persistence.subPath`      | Subdirectory of the volume to mount at     | `postgresql-db`                                            |
+| `persistence.mountPath`    | Mount path of the volume to mount at       | `/var/lib/postgresql/data/pgdata`                          |
 | `resources`                | CPU/Memory resource requests/limits        | Memory: `256Mi`, CPU: `100m`                               |
 | `metrics.enabled`          | Start a side-car prometheus exporter       | `false`                                                    |
 | `metrics.image`            | Exporter image                             | `wrouesnel/postgres_exporter`                              |

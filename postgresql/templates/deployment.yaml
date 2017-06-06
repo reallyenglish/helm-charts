@@ -59,8 +59,10 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: data
-          mountPath: /var/lib/postgresql/data/pgdata
+          mountPath: {{ default "/var/lib/postgresql/data/pgdata" .Values.persistence.mountPath }}
+{{- if .Values.persistence.subPath }}
           subPath: {{ .Values.persistence.subPath }}
+{{- end }}
 {{- if .Values.metrics.enabled }}
       - name: metrics
         image: "{{ .Values.metrics.image }}:{{ .Values.metrics.imageTag }}"
