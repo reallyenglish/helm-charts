@@ -53,6 +53,7 @@ The following tables lists the configurable parameters of the MongoDB chart and 
 | `persistence.storageClass` | Storage class of backing PVC        | `nil`                                                    |
 | `persistence.accessMode`   | Use volume as ReadOnly or ReadWrite | `ReadWriteOnce`                                          |
 | `persistence.size`         | Size of data volume                 | `8Gi`                                                    |
+| `persistence.gcePersistentDisk`| Provide an existing GCE Persistent Disk | `nil`                                            |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
@@ -77,3 +78,12 @@ $ helm install --name my-release -f values.yaml reallyenglish/mongodb
 The [MongoDB](https://github.com/docker-library/mongo) image stores the MongoDB data and configurations at the `/data/db` and `/data/configdb` path of the container.
 
 The chart mounts a [Persistent Volume](kubernetes.io/docs/user-guide/persistent-volumes/) volumes at these locations. The volume is created using dynamic volume provisioning.
+
+### Existing GCE persistent disk
+
+1. Create the disk
+1. Install the chart
+
+```console
+$ helm install --set persistence.gcePersistentDisk=${DISK_NAME} reallyenglish/mongodb
+```

@@ -20,6 +20,10 @@ spec:
         ports:
         - name: mongodb
           containerPort: 27017
+        lifecycle:
+          preStop:
+            exec:
+              command: ["gosu","mongodb","mongod","--shutdown"]
         livenessProbe:
           exec:
             command:
@@ -44,8 +48,14 @@ spec:
       volumes:
       - name: data
       {{- if .Values.persistence.enabled }}
+        {{- if .Values.persistence.gcePersistentDisk }}
+        gcePersistentDisk:
+          pdName: {{ .Values.persistence.gcePersistentDisk | quote }}
+          fsType: "ext4"
+        {{- else }}
         persistentVolumeClaim:
           claimName: {{ template "mongodb.fullname" . }}
+        {{- end -}}
       {{- else }}
         emptyDir: {}
       {{- end -}}

@@ -18,6 +18,10 @@ imageTag: 3.4.4
 ##
 persistence:
   enabled: true
+  ## Existing GCE persistent Disk
+  ## Requires persistence.enabled: true
+  # gcePersistentDisk:
+
   ## If not defined, the default storage class of cluster will be used
   ##
   # storageClass:
