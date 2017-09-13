@@ -25,7 +25,7 @@ server:
   ## Redis server image tag.
   ## ref: https://hub.docker.com/r/reallyenglish/k8s-redis-ha-server/tags/
   ##
-  imageTag: "3.2.8"
+  imageTag: "3.2.10"
 
   ## Specify a imagePullPolicy: 'Always' if imageTag is 'latest', else set to 'IfNotPresent'.
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -74,7 +74,7 @@ sentinel:
   ## Redis server image tag.
   ## ref: https://hub.docker.com/r/reallyenglish/k8s-redis-ha-server/tags/
   ##
-  imageTag: "3.2.8"
+  imageTag: "3.2.10"
 
   ## Specify a imagePullPolicy: 'Always' if imageTag is 'latest', else set to 'IfNotPresent'.
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images

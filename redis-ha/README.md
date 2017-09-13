@@ -19,7 +19,7 @@ The following tables lists the configurable parameters of the redis-ha chart and
 | `statefulSetName`                | Statefulset name                        | `rds`                                 |
 | `replicaCount`                   | Statefulset replica count               | `3`                                   |
 | `server.imageRepository`         | Redis image repo                        | `reallyenglish/k8s-redis-ha-server`   |
-| `server.imageTag`                | Redis image tag                         | `3.2.8`                               |
+| `server.imageTag`                | Redis image tag                         | `3.2.10`                               |
 | `server.imagePullPolicy`         | Image pull policy                       | `IfNotPresent`                        |
 | `server.port`                    | Redis port                              | `6379`                                |
 | `server.dataDir`                 | Redis data directory                    | `/data`                               |
@@ -28,7 +28,7 @@ The following tables lists the configurable parameters of the redis-ha chart and
 | `server.appendFsync`             | Redis appendfsync config                | `always`                              |
 | `server.resources`               | Redis resource requests/limits          | `cpu 100m, memory 128Mi`              |
 | `sentinel.imageRepository`       | Sentinel image repository               | `reallyenglish/k8s-redis-ha-sentinel` |
-| `sentinel.imageTag`              | Sentinel image tag                      | `3.2.8`                               |
+| `sentinel.imageTag`              | Sentinel image tag                      | `3.2.10`                               |
 | `sentinel.imagePullPolicy`       | Sentinel image pull policy              | `IfNotPresent`                        |
 | `sentinel.port`                  | Sentinel port                           | `26379`                               |
 | `sentinel.masterName`            | Redis master name for sentinel          | `ha-master`                           |

@@ -47,7 +47,7 @@ The following tables lists the configurable parameters of the Redis chart and th
 | Parameter                  | Description                         | Default                          |
 | -------------------------- | ----------------------------------- | ---------------------------------|
 | `image`                    | Redis image repository              | `redis`                          |
-| `imageTag`                 | Redis image tag                     | `3.2.8`                          |
+| `imageTag`                 | Redis image tag                     | `3.2.10`                          |
 | `imagePullPolicy`          | Image pull policy                   | `IfNotPresent`                   |
 | `persistence.enabled`      | Use a PVC to persist data           | `true`                           |
 | `persistence.existingClaim`| Use an existing PVC to persist data | `nil`                            |
