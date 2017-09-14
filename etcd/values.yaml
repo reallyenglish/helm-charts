@@ -9,8 +9,9 @@ clientPort: 2379
 component: etcd
 replicas: 3
 image: "gcr.io/google_containers/etcd-amd64"
-imageTag: "2.3.7"
+imageTag: "3.0.14"
 imagePullPolicy: "Always"
 cpu: "100m"
 memory: "256Mi"
 storage: "1Gi"
+# storageClass:

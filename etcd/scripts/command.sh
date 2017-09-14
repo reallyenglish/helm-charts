@@ -77,7 +77,7 @@ for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
     while true; do
         echo "Waiting for ${SET_NAME}-${i}.${SET_NAME} to come up"
         ping -W 1 -c 1 ${SET_NAME}-${i}.${SET_NAME} > /dev/null && break
-        sleep 1
+        sleep 1s
     done
 done
 

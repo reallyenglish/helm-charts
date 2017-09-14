@@ -10,9 +10,22 @@ spec:
     metadata:
       name: {{ template "etcd.fullname" . }}
       {{- include "etcd.labels" . | indent 4 }}
+        fullname: {{ template "etcd.fullname" . }}
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: fullname
+                  operator: In
+                  values:
+                  - {{ template "etcd.fullname" . }}
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: {{ template "etcd.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
@@ -50,8 +63,6 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
-      annotations:
-        volume.alpha.kubernetes.io/storage-class: anything
     spec:
       accessModes:
         - "ReadWriteOnce"
@@ -59,3 +70,10 @@ spec:
         requests:
           # upstream recommended max is 700M
           storage: "{{ .Values.storage }}"
+    {{- if .Values.storageClass }}
+    {{- if (eq "-" .Values.storageClass) }}
+      storageClassName: ""
+    {{- else }}
+      storageClassName: "{{ .Values.storageClass }}"
+    {{- end }}
+    {{- end }}
