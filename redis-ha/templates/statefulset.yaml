@@ -10,6 +10,18 @@ spec:
     metadata:
       {{- include "redis-ha.labels" . | indent 6 }}
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{ template "redis-ha.app" . }}
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: server
           image: {{ template "redis-ha.server-image" . }}
@@ -80,13 +92,14 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        annotations:
-          {{- if .Values.persistence.class }}
-          volume.beta.kubernetes.io/storage-class: {{ .Values.persistence.class | quote }}
-          {{- else }}
-          volume.alpha.kubernetes.io/storage-class: anything
-          {{- end }}
       spec:
+        {{- if .Values.persistence.class }}
+        {{- if (eq "-" .Values.persistence.class) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: "{{ .Values.persistence.class | quote }}"
+        {{- end }}
+        {{- end }}
         accessModes:
           - {{ .Values.persistence.accessMode | quote }}
         resources:

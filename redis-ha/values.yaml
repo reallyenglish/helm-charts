@@ -60,10 +60,10 @@ server:
   ## Resource requests and limitations
   resources:
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 128Mi
     limits:
-      cpu: 300m
+      cpu: 500m
       memory: 512Mi
 
 sentinel:
@@ -115,10 +115,10 @@ sentinel:
   ## Resource requests and limitations
   resources:
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 128Mi
     limits:
-      cpu: 300m
+      cpu: 500m
       memory: 512Mi
 
 ## Persistent Volume Storage configuration.
@@ -131,7 +131,8 @@ persistence:
   enabled: true
 
   ## Persistent Volume Storage Class.
-  ##
+  ## use "-" to disable automatic storage.
+  ## leave it unset to use default storage class of the cluster.
   # class:
 
   ## Persistent Volume Access Mode.
