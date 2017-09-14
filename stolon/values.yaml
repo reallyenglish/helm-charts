@@ -14,7 +14,7 @@ image: "sorintlab/stolon"
 ## Stolon image version.
 ## ref: https://hub.docker.com/r/sorintlab/stolon/tags/
 ##
-imageTag: "v0.5.0-pg9.6"
+imageTag: "v0.7.0-pg9.6"
 
 ## Specify a imagePullPolicy: 'Always' if imageTag is 'latest', else set to 'IfNotPresent'.
 ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -36,13 +36,8 @@ store:
 etcd:
   ## use etcd as backend
   enabled: true
-  service:
-  ## managed mode means that service will be deployed as part of the chart as a dependency
-  # managed: true
-  persistence:
-    enabled: true
-    classVersion: beta
-    class: slow
+  ## use existing etcd.(turn above false.)
+  # service:
 
 sentinel:
   replicas: 3
@@ -90,12 +85,10 @@ persistence:
   ##
   enabled: false
 
-  ## Persistent Volume Storage Class Version.
-  ##
-  classVersion: beta
   ## Persistent Volume Storage Class.
-  ##
-  class: slow
+  ## Leave it empty to use default storage class of the cluster
+  ## Set it "-" to disable automatic storage provisioning
+  ## class:
 
   ## Persistent Volume Access Mode.
   ##

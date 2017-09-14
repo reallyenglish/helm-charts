@@ -1,5 +1,4 @@
-{{ if .Release.IsInstall }}
-apiVersion: extensions/v1beta1
+apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ template "stolon.fullname" . }}
@@ -8,6 +7,12 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    # hook-weight is greater than db-migrate hook, so it will run afterwards
+    "helm.sh/hook-weight": "0"
 spec:
   template:
     metadata:
@@ -16,17 +21,13 @@ spec:
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
-      annotations:
-        pod.beta.kubernetes.io/init-containers: '[
-              {
-                  "name": "create-cluster",
-                  "image": "gcr.io/google_containers/etcd-amd64:3.0.14",
-                  "command": ["/bin/sh", "-c", "while ! etcdctl --endpoints {{ template "store.endpoint" . }} cluster-health; do sleep 1 && echo -n .; done"],
-                  "imagePullPolicy": {{ default "Always" .Values.imagePullPolicy | quote }}
-              }
-          ]'
     spec:
       restartPolicy: Never
+      initContainers:
+      - name: create-cluster
+        image: "gcr.io/google_containers/etcd-amd64:3.0.14"
+        imagePullPolicy: {{ default "Always" .Values.imagePullPolicy | quote }}
+        command: ["/bin/sh", "-c", "while ! etcdctl --endpoints {{ template "store.endpoint" . }} cluster-health; do sleep 1 && echo -n .; done"]
       containers:
       - name: {{ template "stolon.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
@@ -38,4 +39,3 @@ spec:
           - --store-backend={{ .Values.store.backend }}
           - --store-endpoints={{ template "store.endpoint" . }}
           - --yes
-{{ end }}

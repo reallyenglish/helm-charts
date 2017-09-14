@@ -16,9 +16,25 @@ spec:
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
-        stolon-cluster: {{ .Values.clusterName }}
+        stolon-cluster: {{ .Values.clusterName | quote }}
         stolon-proxy: "true"
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{ template "proxy.fullname" . }}
+                - key: stolon-cluster
+                  operator: In
+                  values:
+                  - {{ .Values.clusterName | quote }}
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: stolon-proxy
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"

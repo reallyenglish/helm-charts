@@ -19,7 +19,8 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- if eq .Values.store.backend "etcd" -}}
 {{- $etcdService := printf "%s-%s" .Release.Name .Values.etcd.name | trunc 63 | trimSuffix "-" -}}
 {{- $etcdPort := default "2379" .Values.etcd.clientPort -}}
-{{- printf "http://%s:%s" $etcdService $etcdPort -}}
+{{- $generated := printf "http://%s:%s" $etcdService $etcdPort -}}
+{{- default $generated .Values.etcd.service -}}
 {{- else if eq .Values.store.backend "consul" -}}
 {{- printf "http://%s-%s:2379" .Release.Name .Values.store.backend -}}
 {{- end -}}
